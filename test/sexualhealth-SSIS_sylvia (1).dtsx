@@ -1,0 +1,2214 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="8/19/2020 2:18:57 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="LA29688"
+  DTS:CreatorName="UBHT_NT\ChiltonMic"
+  DTS:DTSID="{A78A88D5-2E34-43DF-86A3-6171CDF8B06C}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.180"
+  DTS:LocaleID="2057"
+  DTS:ObjectName="sexualhealth-SSIS_sylvia"
+  DTS:PackageType="5"
+  DTS:VersionBuild="177"
+  DTS:VersionGUID="{3864BE2F-8F2B-4EA6-84EC-BB3AC5423389}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Excel Connection Manager]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{13253D5C-D16C-446F-A593-754281530372}"
+      DTS:ObjectName="Excel Connection Manager">
+      <DTS:PropertyExpression
+        DTS:Name="ExcelFilePath">@[User::FileName]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="0"
+          DTS:ConnectRetryInterval="0"
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\ubht.nhs.uk\shares\BI\Dataload\Sexual Health\ToP\Dev\2020-11-19 PAS 202021 YTD ST v3.xlsx;Extended Properties=&quot;EXCEL 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[sexualhealth DB]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{41F8DB18-C356-48CD-8385-91063E349FAE}"
+      DTS:ObjectName="sexualhealth DB">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[$Project::SexualHealth_ConnectionString_Database]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=BIT_TEST;Initial Catalog=sexualhealth;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{5B567B77-D725-41C8-B3EF-2C02376C615A}"
+      DTS:ObjectName="FileConnectionArchive">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">\\ubht.nhs.uk\shares\BI\Dataload\Sexual Health\ToP\Test\Archive</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{7C5DFA21-FFDF-4365-BB19-0C7F199CEF4D}"
+      DTS:ObjectName="FileConnectionSH">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">\\ubht.nhs.uk\shares\BI\Dataload\Sexual Health\ToP\Test</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{55F7C1E0-6EAD-46B5-AC72-AF0331E0AC9C}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::SexualHealth_DestinationConnection_ArchiveFile]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Archive">
+      <DTS:VariableValue
+        DTS:DataType="8">\\ubht.nhs.uk\shares\BI\Dataload\Sexual Health\ToP\Test\Archive</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2B735F43-E54C-4CA8-A394-4672F704D5E3}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="FileName">
+      <DTS:VariableValue
+        DTS:DataType="8">\\ubht.nhs.uk\shares\BI\Dataload\Sexual Health\ToP\Dev\2020-11-19 PAS 202021 YTD ST v3.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{FC5D880F-D645-49E0-B483-168579E3089F}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::SexualHealth_Directory_SexualHealthFolder]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">\\ubht.nhs.uk\shares\BI\Dataload\Sexual Health\ToP\Test\</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Foreach Loop Container"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{C35E1E5F-4476-4256-A452-665669F50B8D}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach Loop Container">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{8E40B568-5565-42BA-A264-B06A3BA788DC}"
+        DTS:ObjectName="{8E40B568-5565-42BA-A264-B06A3BA788DC}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::SourceFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="\\ubht.nhs.uk\shares\BI\Dataload\Sexual Health\ToP\Test\" />
+            <FEFEProperty
+              FileSpec="*.xlsx" />
+            <FEFEProperty
+              FileNameRetrievalType="0" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Archive Excel Files"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="File System Task"
+          DTS:DTSID="{FF3280CE-44F8-4746-8174-276F00B9F4A8}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Archive Excel Files"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="MoveFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::FileName"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::Archive"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Execute SQL Task"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{7425F650-3564-4E51-BCE1-B29109864C0D}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{41F8DB18-C356-48CD-8385-91063E349FAE}"
+              SQLTask:SqlStatementSource="DECLARE @path VARCHAR(MAX) =?,&#xA;@filename varchar(MAX) =?&#xA;&#xA;INSERT INTO [dbo].[test_deleteme]&#xA;(value)&#xA;&#xA;SELECT @path&#xA;UNION&#xA;SELECT @filename" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="$Project::SexualHealth_DestinationConnection_ArchiveFile"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::FileName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Insert Data into Permenant Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{378DE7C4-BD5B-4603-9615-E3107E1485BF}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Insert Data into Permenant Table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{41F8DB18-C356-48CD-8385-91063E349FAE}"
+              SQLTask:SqlStatementSource="EXECUTE dbo.ToP_Data_Insert&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Load Excel Data into SQL Server"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{6AD813DB-1F18-4DCD-86AB-82D3850559DA}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Excel Data into SQL Server">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Excel Source"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">Template$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Excel Connection Manager]"
+                      connectionManagerRefId="Package.ConnectionManagers[Excel Connection Manager]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Central Booking Line PT ID _(MSI allocated ID Number)]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]"
+                          name="Central Booking Line PT ID _(MSI allocated ID Number)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]"
+                          name="Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[First Consultation Date_(dd/mm/yyyy)]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[First Consultation Date_(dd/mm/yyyy)]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[First Consultation Date_(dd/mm/yyyy)]"
+                          name="First Consultation Date_(dd/mm/yyyy)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Local Authority Area]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[PT Local Authority Area]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Local Authority Area]"
+                          name="PT Local Authority Area"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Ethnicity]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[PT Ethnicity]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Ethnicity]"
+                          name="PT Ethnicity"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Sexuality]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[PT Sexuality]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Sexuality]"
+                          name="PT Sexuality"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Does PT consider themselves to have a disability?]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Does PT consider themselves to have a disability?]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Does PT consider themselves to have a disability?]"
+                          name="Does PT consider themselves to have a disability?"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Pregnancy _Gestation on day of ToP_(ww#dd)]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]"
+                          name="Pregnancy _Gestation on day of ToP_(ww#dd)"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Postnatal in last 6/12]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Postnatal in last 6/12]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Postnatal in last 6/12]"
+                          name="Postnatal in last 6/12"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Previous ToP in last 2 years]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Previous ToP in last 2 years]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Previous ToP in last 2 years]"
+                          name="Previous ToP in last 2 years"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Contraception accepted at time of consultation]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Contraception accepted at time of consultation]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Contraception accepted at time of consultation]"
+                          name="Contraception accepted at time of consultation"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Contraception accepted at time of ToP]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Contraception accepted at time of ToP]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Contraception accepted at time of ToP]"
+                          name="Contraception accepted at time of ToP"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Procedure Date_(dd/mm/yyyy)]"
+                          dataType="date"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="IgnoreFailure"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Procedure Date_(dd/mm/yyyy)]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Procedure Date_(dd/mm/yyyy)]"
+                          name="Procedure Date_(dd/mm/yyyy)"
+                          truncationRowDisposition="IgnoreFailure" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Reason for procedure date &gt;10d from consultation date]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reason for procedure date &gt;10d from consultation date]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Reason for procedure date &gt;10d from consultation date]"
+                          name="Reason for procedure date &gt;10d from consultation date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[ToP Type_]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[ToP Type_]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[ToP Type_]"
+                          name="ToP Type_"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Procedure location]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Procedure location]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Procedure location]"
+                          name="Procedure location"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[CT Test Accepted]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[CT Test Accepted]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[CT Test Accepted]"
+                          name="CT Test Accepted"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[GC Test Accepted]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[GC Test Accepted]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[GC Test Accepted]"
+                          name="GC Test Accepted"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Syphilis Test Accepted]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Syphilis Test Accepted]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Syphilis Test Accepted]"
+                          name="Syphilis Test Accepted"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[HIV Test Accepted]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[HIV Test Accepted]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[HIV Test Accepted]"
+                          name="HIV Test Accepted"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Provider]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Provider]"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Provider]"
+                          name="Provider"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT age_(yy)]"
+                          dataType="r8"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[PT age_(yy)]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT age_(yy)]"
+                          name="PT age_(yy)"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Central Booking Line PT ID _(MSI allocated ID Number)]"
+                          dataType="r8"
+                          name="Central Booking Line PT ID _(MSI allocated ID Number)" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]"
+                          dataType="wstr"
+                          length="255"
+                          name="Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[First Consultation Date_(dd/mm/yyyy)]"
+                          dataType="wstr"
+                          length="255"
+                          name="First Consultation Date_(dd/mm/yyyy)" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[PT Local Authority Area]"
+                          dataType="wstr"
+                          length="255"
+                          name="PT Local Authority Area" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[PT Ethnicity]"
+                          dataType="wstr"
+                          length="255"
+                          name="PT Ethnicity" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[PT Sexuality]"
+                          dataType="wstr"
+                          length="255"
+                          name="PT Sexuality" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Does PT consider themselves to have a disability?]"
+                          dataType="wstr"
+                          length="255"
+                          name="Does PT consider themselves to have a disability?" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Pregnancy _Gestation on day of ToP_(ww#dd)]"
+                          dataType="r8"
+                          name="Pregnancy _Gestation on day of ToP_(ww#dd)" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Postnatal in last 6/12]"
+                          dataType="wstr"
+                          length="255"
+                          name="Postnatal in last 6/12" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Previous ToP in last 2 years]"
+                          dataType="wstr"
+                          length="255"
+                          name="Previous ToP in last 2 years" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Contraception accepted at time of consultation]"
+                          dataType="wstr"
+                          length="255"
+                          name="Contraception accepted at time of consultation" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Contraception accepted at time of ToP]"
+                          dataType="wstr"
+                          length="255"
+                          name="Contraception accepted at time of ToP" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Procedure Date_(dd/mm/yyyy)]"
+                          dataType="wstr"
+                          length="255"
+                          name="Procedure Date_(dd/mm/yyyy)" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Reason for procedure date &gt;10d from consultation date]"
+                          dataType="wstr"
+                          length="255"
+                          name="Reason for procedure date &gt;10d from consultation date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[ToP Type_]"
+                          dataType="wstr"
+                          length="255"
+                          name="ToP Type_" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Procedure location]"
+                          dataType="wstr"
+                          length="255"
+                          name="Procedure location" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[CT Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          name="CT Test Accepted" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[GC Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          name="GC Test Accepted" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Syphilis Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          name="Syphilis Test Accepted" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[HIV Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          name="HIV Test Accepted" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[Provider]"
+                          dataType="wstr"
+                          length="255"
+                          name="Provider" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].ExternalColumns[PT age_(yy)]"
+                          dataType="r8"
+                          name="PT age_(yy)" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Provider]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Provider]"
+                          name="Provider" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]"
+                          dataType="r8"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]"
+                          name="Central Booking Line PT ID _(MSI allocated ID Number)" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]"
+                          name="Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[First Consultation Date_(dd/mm/yyyy)]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[First Consultation Date_(dd/mm/yyyy)]"
+                          name="First Consultation Date_(dd/mm/yyyy)" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[PT Local Authority Area]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[PT Local Authority Area]"
+                          name="PT Local Authority Area" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[PT age_(yy)]"
+                          dataType="r8"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[PT age_(yy)]"
+                          name="PT age_(yy)" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[PT Ethnicity]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[PT Ethnicity]"
+                          name="PT Ethnicity" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[PT Sexuality]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[PT Sexuality]"
+                          name="PT Sexuality" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Does PT consider themselves to have a disability?]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Does PT consider themselves to have a disability?]"
+                          name="Does PT consider themselves to have a disability?" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]"
+                          dataType="r8"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]"
+                          name="Pregnancy _Gestation on day of ToP_(ww#dd)" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Postnatal in last 6/12]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Postnatal in last 6/12]"
+                          name="Postnatal in last 6/12" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Previous ToP in last 2 years]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Previous ToP in last 2 years]"
+                          name="Previous ToP in last 2 years" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Contraception accepted at time of consultation]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Contraception accepted at time of consultation]"
+                          name="Contraception accepted at time of consultation" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Contraception accepted at time of ToP]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Contraception accepted at time of ToP]"
+                          name="Contraception accepted at time of ToP" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Procedure Date_(dd/mm/yyyy)]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Procedure Date_(dd/mm/yyyy)]"
+                          name="Procedure Date_(dd/mm/yyyy)" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Reason for procedure date &gt;10d from consultation date]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Reason for procedure date &gt;10d from consultation date]"
+                          name="Reason for procedure date &gt;10d from consultation date" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[ToP Type_]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[ToP Type_]"
+                          name="ToP Type_" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Procedure location]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Procedure location]"
+                          name="Procedure location" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[CT Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[CT Test Accepted]"
+                          name="CT Test Accepted" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[GC Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[GC Test Accepted]"
+                          name="GC Test Accepted" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Syphilis Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[Syphilis Test Accepted]"
+                          name="Syphilis Test Accepted" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[HIV Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[HIV Test Accepted]"
+                          name="HIV Test Accepted" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="OLE DB Destination"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[import].[PAS]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[sexualhealth DB]"
+                      connectionManagerRefId="Package.ConnectionManagers[sexualhealth DB]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]"
+                          cachedDataType="r8"
+                          cachedName="Central Booking Line PT ID _(MSI allocated ID Number)"
+                          cachedSortKeyPosition="1"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PT_ID]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]"
+                          cachedDataType="date"
+                          cachedName="Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact_with_CBL]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[First Consultation Date_(dd/mm/yyyy)]"
+                          cachedDataType="date"
+                          cachedName="First Consultation Date_(dd/mm/yyyy)"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[First_Consultation_Date]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[First Consultation Date_(dd/mm/yyyy)]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PT age_(yy)]"
+                          cachedDataType="r8"
+                          cachedName="PT age_(yy)"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT age_(yy)]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PT Ethnicity]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PT Ethnicity"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Ethnicity]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT Ethnicity]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PT Sexuality]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PT Sexuality"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Sexuality]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT Sexuality]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Does PT consider themselves to have a disability?]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Does PT consider themselves to have a disability?"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Disability]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Does PT consider themselves to have a disability?]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]"
+                          cachedDataType="r8"
+                          cachedName="Pregnancy _Gestation on day of ToP_(ww#dd)"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pregnancy_Gestation]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Postnatal in last 6/12]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Postnatal in last 6/12"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Postnatal]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Postnatal in last 6/12]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Previous ToP in last 2 years]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Previous ToP in last 2 years"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Previous_ToP]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Previous ToP in last 2 years]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Contraception accepted at time of consultation]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Contraception accepted at time of consultation"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contraception_Accepted_Consultation]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Contraception accepted at time of consultation]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Contraception accepted at time of ToP]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Contraception accepted at time of ToP"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contraception_Accepted_ToP]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Contraception accepted at time of ToP]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Reason for procedure date &gt;10d from consultation date]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Reason for procedure date &gt;10d from consultation date"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Reason_for_Procedure_Date]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Reason for procedure date &gt;10d from consultation date]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Procedure location]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Procedure location"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Procedure_Location]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Procedure location]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CT Test Accepted]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="CT Test Accepted"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CT_Test_Accepted]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[CT Test Accepted]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GC Test Accepted]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="GC Test Accepted"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GC_Test_Accepted]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[GC Test Accepted]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Syphilis Test Accepted]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Syphilis Test Accepted"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Syphilis_Test_Accepted]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Syphilis Test Accepted]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[HIV Test Accepted]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="HIV Test Accepted"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[HIV_Test_Accepted]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[HIV Test Accepted]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PT Local Authority Area]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PT Local Authority Area"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Local_Authority_Area]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT Local Authority Area]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Procedure Date_(dd/mm/yyyy)]"
+                          cachedDataType="date"
+                          cachedName="Procedure Date_(dd/mm/yyyy)"
+                          cachedSortKeyPosition="2"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Procedure_Date]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Procedure Date_(dd/mm/yyyy)]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Provider]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Provider"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Provider]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Provider]" />
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[ToP Type_]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="ToP Type_"
+                          externalMetadataColumnId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ToP_Type]"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[ToP Type_]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PT_ID]"
+                          dataType="wstr"
+                          length="100"
+                          name="PT_ID" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact_with_CBL]"
+                          dataType="wstr"
+                          length="100"
+                          name="Contact_with_CBL" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[First_Consultation_Date]"
+                          dataType="wstr"
+                          length="100"
+                          name="First_Consultation_Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Local_Authority_Area]"
+                          dataType="wstr"
+                          length="100"
+                          name="Local_Authority_Area" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Age]"
+                          dataType="wstr"
+                          length="100"
+                          name="Age" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Ethnicity]"
+                          dataType="wstr"
+                          length="100"
+                          name="Ethnicity" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Sexuality]"
+                          dataType="wstr"
+                          length="100"
+                          name="Sexuality" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Disability]"
+                          dataType="wstr"
+                          length="100"
+                          name="Disability" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Pregnancy_Gestation]"
+                          dataType="wstr"
+                          length="100"
+                          name="Pregnancy_Gestation" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Postnatal]"
+                          dataType="wstr"
+                          length="100"
+                          name="Postnatal" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Previous_ToP]"
+                          dataType="wstr"
+                          length="100"
+                          name="Previous_ToP" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contraception_Accepted_Consultation]"
+                          dataType="wstr"
+                          length="100"
+                          name="Contraception_Accepted_Consultation" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contraception_Accepted_ToP]"
+                          dataType="wstr"
+                          length="100"
+                          name="Contraception_Accepted_ToP" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Procedure_Date]"
+                          dataType="wstr"
+                          length="100"
+                          name="Procedure_Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Reason_for_Procedure_Date]"
+                          dataType="wstr"
+                          length="100"
+                          name="Reason_for_Procedure_Date" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[ToP_Type]"
+                          dataType="wstr"
+                          length="100"
+                          name="ToP_Type" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Procedure_Location]"
+                          dataType="wstr"
+                          length="100"
+                          name="Procedure_Location" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CT_Test_Accepted]"
+                          dataType="wstr"
+                          length="100"
+                          name="CT_Test_Accepted" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GC_Test_Accepted]"
+                          dataType="wstr"
+                          length="100"
+                          name="GC_Test_Accepted" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Syphilis_Test_Accepted]"
+                          dataType="wstr"
+                          length="100"
+                          name="Syphilis_Test_Accepted" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[HIV_Test_Accepted]"
+                          dataType="wstr"
+                          length="100"
+                          name="HIV_Test_Accepted" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Count_Of_Patients]"
+                          dataType="wstr"
+                          length="100"
+                          name="Count_Of_Patients" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contacting_CBL_to_Consultation]"
+                          dataType="wstr"
+                          length="100"
+                          name="Contacting_CBL_to_Consultation" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contacting_CBL to_ToP]"
+                          dataType="wstr"
+                          length="100"
+                          name="Contacting_CBL to_ToP" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Consultation_to_ToP]"
+                          dataType="wstr"
+                          length="100"
+                          name="Consultation_to_ToP" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Provider]"
+                          dataType="wstr"
+                          length="100"
+                          name="Provider" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CREATE_DTTM]"
+                          dataType="dbTimeStamp"
+                          name="CREATE_DTTM" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[IMPORT_ID]"
+                          dataType="i4"
+                          name="IMPORT_ID" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort"
+                  componentClassID="Microsoft.Sort"
+                  contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+                  name="Sort"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                      name="EliminateDuplicates">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the maximum number of threads to use for sorting."
+                      expressionType="Notify"
+                      name="MaximumThreads">-1</property>
+                  </properties>
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input]"
+                      name="Sort Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]"
+                          cachedDataType="r8"
+                          cachedName="Central Booking Line PT ID _(MSI allocated ID Number)"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">1</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]"
+                          cachedDataType="date"
+                          cachedName="Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[First Consultation Date_(dd/mm/yyyy)]"
+                          cachedDataType="date"
+                          cachedName="First Consultation Date_(dd/mm/yyyy)"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[First Consultation Date_(dd/mm/yyyy)]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[PT Local Authority Area]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PT Local Authority Area"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Local Authority Area]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[PT Ethnicity]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PT Ethnicity"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Ethnicity]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[PT Sexuality]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="PT Sexuality"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Sexuality]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Does PT consider themselves to have a disability?]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Does PT consider themselves to have a disability?"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Does PT consider themselves to have a disability?]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]"
+                          cachedDataType="r8"
+                          cachedName="Pregnancy _Gestation on day of ToP_(ww#dd)"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Postnatal in last 6/12]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Postnatal in last 6/12"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Postnatal in last 6/12]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Previous ToP in last 2 years]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Previous ToP in last 2 years"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Previous ToP in last 2 years]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Contraception accepted at time of consultation]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Contraception accepted at time of consultation"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Contraception accepted at time of consultation]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Contraception accepted at time of ToP]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Contraception accepted at time of ToP"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Contraception accepted at time of ToP]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Procedure Date_(dd/mm/yyyy)]"
+                          cachedDataType="date"
+                          cachedName="Procedure Date_(dd/mm/yyyy)"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Procedure Date_(dd/mm/yyyy)]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">2</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Reason for procedure date &gt;10d from consultation date]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Reason for procedure date &gt;10d from consultation date"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Reason for procedure date &gt;10d from consultation date]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[ToP Type_]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="ToP Type_"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[ToP Type_]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Procedure location]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Procedure location"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Procedure location]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[CT Test Accepted]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="CT Test Accepted"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[CT Test Accepted]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[GC Test Accepted]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="GC Test Accepted"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[GC Test Accepted]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Syphilis Test Accepted]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Syphilis Test Accepted"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Syphilis Test Accepted]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[HIV Test Accepted]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="HIV Test Accepted"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[HIV Test Accepted]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[Provider]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Provider"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Provider]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                        <inputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input].Columns[PT age_(yy)]"
+                          cachedDataType="r8"
+                          cachedName="PT age_(yy)"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT age_(yy)]">
+                          <properties>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the comparison options for character data."
+                              name="NewComparisonFlags">0</property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the sort order of the column."
+                              name="NewSortKeyPosition">0</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output]"
+                      isSorted="true"
+                      name="Sort Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]"
+                          dataType="r8"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]"
+                          name="Central Booking Line PT ID _(MSI allocated ID Number)"
+                          sortKeyPosition="1">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Central Booking Line PT ID _(MSI allocated ID Number)]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]"
+                          dataType="date"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]"
+                          name="Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Date of PT contact with Central Booking Line (CBL) _(dd/mm/yyyy)]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[First Consultation Date_(dd/mm/yyyy)]"
+                          dataType="date"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[First Consultation Date_(dd/mm/yyyy)]"
+                          name="First Consultation Date_(dd/mm/yyyy)">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[First Consultation Date_(dd/mm/yyyy)]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT Local Authority Area]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT Local Authority Area]"
+                          name="PT Local Authority Area">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Local Authority Area]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT Ethnicity]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT Ethnicity]"
+                          name="PT Ethnicity">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Ethnicity]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT Sexuality]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT Sexuality]"
+                          name="PT Sexuality">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT Sexuality]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Does PT consider themselves to have a disability?]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Does PT consider themselves to have a disability?]"
+                          name="Does PT consider themselves to have a disability?">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Does PT consider themselves to have a disability?]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]"
+                          dataType="r8"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]"
+                          name="Pregnancy _Gestation on day of ToP_(ww#dd)">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Pregnancy _Gestation on day of ToP_(ww#dd)]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Postnatal in last 6/12]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Postnatal in last 6/12]"
+                          name="Postnatal in last 6/12">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Postnatal in last 6/12]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Previous ToP in last 2 years]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Previous ToP in last 2 years]"
+                          name="Previous ToP in last 2 years">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Previous ToP in last 2 years]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Contraception accepted at time of consultation]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Contraception accepted at time of consultation]"
+                          name="Contraception accepted at time of consultation">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Contraception accepted at time of consultation]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Contraception accepted at time of ToP]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Contraception accepted at time of ToP]"
+                          name="Contraception accepted at time of ToP">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Contraception accepted at time of ToP]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Procedure Date_(dd/mm/yyyy)]"
+                          dataType="date"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Procedure Date_(dd/mm/yyyy)]"
+                          name="Procedure Date_(dd/mm/yyyy)"
+                          sortKeyPosition="2">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Procedure Date_(dd/mm/yyyy)]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Reason for procedure date &gt;10d from consultation date]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Reason for procedure date &gt;10d from consultation date]"
+                          name="Reason for procedure date &gt;10d from consultation date">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Reason for procedure date &gt;10d from consultation date]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[ToP Type_]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[ToP Type_]"
+                          name="ToP Type_">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[ToP Type_]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Procedure location]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Procedure location]"
+                          name="Procedure location">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Procedure location]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[CT Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[CT Test Accepted]"
+                          name="CT Test Accepted">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[CT Test Accepted]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[GC Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[GC Test Accepted]"
+                          name="GC Test Accepted">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[GC Test Accepted]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Syphilis Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Syphilis Test Accepted]"
+                          name="Syphilis Test Accepted">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Syphilis Test Accepted]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[HIV Test Accepted]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[HIV Test Accepted]"
+                          name="HIV Test Accepted">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[HIV Test Accepted]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Provider]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[Provider]"
+                          name="Provider">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[Provider]}</property>
+                          </properties>
+                        </outputColumn>
+                        <outputColumn
+                          refId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT age_(yy)]"
+                          dataType="r8"
+                          lineageId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output].Columns[PT age_(yy)]"
+                          name="PT age_(yy)">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.Int32"
+                              description="Specifies the lineage identifier of the input column that is associated with this output column."
+                              name="SortColumnId">#{Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output].Columns[PT age_(yy)]}</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Foreach Loop Container\Load Excel Data into SQL Server.Paths[Excel Source Output]"
+                  endId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Inputs[Sort Input]"
+                  name="Excel Source Output"
+                  startId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source.Outputs[Excel Source Output]" />
+                <path
+                  refId="Package\Foreach Loop Container\Load Excel Data into SQL Server.Paths[Sort Output]"
+                  endId="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  name="Sort Output"
+                  startId="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort.Outputs[Sort Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Transform Data"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{98B8A894-6B62-4104-AF29-18173B346DE0}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Transform Data"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{41F8DB18-C356-48CD-8385-91063E349FAE}"
+              SQLTask:SqlStatementSource="EXECUTE transform.transform_pas ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::FileName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Truncate Tables"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{DCC4F093-7AFF-4239-8A37-9BDBAB086E11}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate Tables"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{41F8DB18-C356-48CD-8385-91063E349FAE}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE import.PAS&#xA;GO&#xA;TRUNCATE TABLE transform.Transform_Data&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{9780A336-A36A-495F-B0C8-3DF572B53FED}"
+          DTS:From="Package\Foreach Loop Container\Truncate Tables"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Foreach Loop Container\Load Excel Data into SQL Server" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{A864A209-3904-4C24-A661-BEAFE0C48C64}"
+          DTS:From="Package\Foreach Loop Container\Load Excel Data into SQL Server"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Foreach Loop Container\Transform Data" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{ABE7CF12-3036-4E0C-A40F-64F0EA16FF66}"
+          DTS:From="Package\Foreach Loop Container\Transform Data"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Foreach Loop Container\Insert Data into Permenant Table" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{95E7A734-4EFD-4F15-98B7-FD8E61C6951D}"
+          DTS:From="Package\Foreach Loop Container\Insert Data into Permenant Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Foreach Loop Container\Execute SQL Task" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{E758EE67-72BB-4126-AF84-C481891051F2}"
+          DTS:From="Package\Foreach Loop Container\Execute SQL Task"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\Foreach Loop Container\Archive Excel Files" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{C37E6D26-E16F-43E5-975E-3FC6813DA374}"
+          DTS:ObjectName="{C37E6D26-E16F-43E5-975E-3FC6813DA374}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::FileName" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="156.8,41.6"
+          Id="Package\Foreach Loop Container\Archive Excel Files"
+          TopLeft="74.4000054495678,340.941181386797" />
+        <NodeLayout
+          Size="172,41.6"
+          Id="Package\Foreach Loop Container\Insert Data into Permenant Table"
+          TopLeft="57.4857150058357,217.71176704816" />
+        <NodeLayout
+          Size="230.4,41.6"
+          Id="Package\Foreach Loop Container\Load Excel Data into SQL Server"
+          TopLeft="36.0571437232349,79.4294125883636" />
+        <NodeLayout
+          Size="152,41.6"
+          Id="Package\Foreach Loop Container\Transform Data"
+          TopLeft="70.0571437913546,153.14706031641" />
+        <NodeLayout
+          Size="153.6,41.6"
+          Id="Package\Foreach Loop Container\Truncate Tables"
+          TopLeft="74.5714253795388,8.7941166947045" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
+          TopLeft="151.314284551387,50.3941166947045">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29.0352958936591"
+              Start="0,0"
+              End="0,21.5352958936591">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5352958936591" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="148.657143757295,121.029412588364">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32.1176477280461"
+              Start="0,0"
+              End="0,24.6176477280461">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.6176477280461" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 2]"
+          TopLeft="144.771429398595,194.74706031641">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,22.9647067317502"
+              Start="0,0"
+              End="0,15.4647067317502">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.4647067317502" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Foreach Loop Container\Execute SQL Task"
+          TopLeft="67.557144200072,272.549828525398" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 3]"
+          TopLeft="57.4857150058357,238.51176704816">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="10.0714291942363,54.838061477238"
+              Start="0,0"
+              End="2.5714291942363,54.838061477238">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-18.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.5,0"
+                    Point2="-22.5,0"
+                    Point3="-22.5,4" />
+                  <mssgle:LineSegment
+                    End="-22.5,50.838061477238" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-22.5,50.838061477238"
+                    Point2="-22.5,54.838061477238"
+                    Point3="-18.5,54.838061477238" />
+                  <mssgle:LineSegment
+                    End="2.5714291942363,54.838061477238" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 4]"
+          TopLeft="150.77857482482,314.149828525398">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26.791352861399"
+              Start="0,0"
+              End="0,19.291352861399">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.291352861399" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="315.2,437.6"
+          Size="315.2,480.8"
+          Id="Package\Foreach Loop Container"
+          TopLeft="16.7142827462171,17.7470517109012" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Foreach Loop Container\Load Excel Data into SQL Server">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination"
+          TopLeft="31.4999987057277,211.782353147091" />
+        <NodeLayout
+          Size="138.4,41.6"
+          Id="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source"
+          TopLeft="38.8571435188761,43.8117651520303" />
+        <NodeLayout
+          Size="97.6,41.6"
+          Id="Package\Foreach Loop Container\Load Excel Data into SQL Server\Sort"
+          TopLeft="64.357143859474,122.347060462265" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\Load Excel Data into SQL Server.Paths[Sort Output]"
+          TopLeft="114.928571282601,163.947060462265">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,47.835292684826"
+              Start="0,0"
+              End="0,40.335292684826">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.335292684826" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container\Load Excel Data into SQL Server.Paths[Excel Source Output]"
+          TopLeft="110.607143689175,85.4117651520303">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.935295310235"
+              Start="0,0"
+              End="0,29.435295310235">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.435295310235" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Loop Container\Load Excel Data into SQL Server\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Loop Container\Load Excel Data into SQL Server\Excel Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
